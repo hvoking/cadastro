@@ -1,9 +1,9 @@
 // App imports
-import { Wrapper } from './wrapper';
 import { Layers } from './layers';
 import { Tiles } from './tiles';
 import { Lines } from './lines';
 import { Navigation } from './nav';
+import './styles.scss';
 
 // Context imports
 import { useMapProperties } from '../../context/maps/properties';
@@ -18,7 +18,7 @@ export const Maps = () => {
     const { isDragging, onDragStart, onMouseMove, onDragEnd } = useMapEvents();
 
 	return (
-		<Wrapper>
+		<div className="map-container">
 			<Map
 				ref={mapRef}
 				initialViewState={viewport}
@@ -37,6 +37,6 @@ export const Maps = () => {
 				<Tiles/>
 				<Navigation/>
 			</Map>
-		</Wrapper>
+		</div>
 	)
 }

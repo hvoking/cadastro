@@ -15,7 +15,6 @@ export const Lines = () => {
 	`;
 	const url = tempUrl.replace(/\s/g, '');
 
-
 	const parcelLayer: LayerProps = {
 		id: 'blumenau-layer',
 		source: 'blumenau-tiles',
