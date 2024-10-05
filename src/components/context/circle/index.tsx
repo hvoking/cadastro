@@ -2,7 +2,7 @@
 import { useState, useContext, createContext } from 'react';
 
 // Context imports
-import { useMapProperties } from '../maps/properties';
+import { useMapbox } from '../mapbox';
 
 const CircleContext: React.Context<any> = createContext(null);
 
@@ -13,13 +13,13 @@ export const useCircle = () => {
 }
 
 export const CircleProvider = ({children}: any) => {
-	const { marker } = useMapProperties();
+	const { viewport } = useMapbox();
 	const [ radius, setRadius ] = useState(1);
 
 	const createCircle = (center: any, radiusInKm: any, points: any) => {
 	    if(!points) points = 64;
 
-	    const coords = { latitude: marker.latitude, longitude: marker.longitude };
+	    const coords = { latitude: viewport.latitude, longitude: viewport.longitude };
 	    const km = radiusInKm;
 	    
 	    const distanceX = km/(111.320*Math.cos(coords.latitude*Math.PI/180));
@@ -43,7 +43,7 @@ export const CircleProvider = ({children}: any) => {
 	    };
 	};
 
-	const circleGeometry: any = createCircle([marker.longitude, marker.latitude], radius, 64);
+	const circleGeometry: any = createCircle([viewport.longitude, viewport.latitude], radius, 64);
 
 	return (
 		<CircleContext.Provider value={{ 

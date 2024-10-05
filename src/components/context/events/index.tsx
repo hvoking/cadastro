@@ -2,18 +2,18 @@
 import { useState, useCallback, useContext, createContext } from 'react';
 
 // App imports
-import { useMapProperties } from '../../maps/properties';
+import { useMapbox } from '../mapbox';
 
-const MapEventsContext: React.Context<any> = createContext(null);
+const EventsContext: React.Context<any> = createContext(null);
 
-export const useMapEvents = () => {
+export const useEvents = () => {
 	return (
-		useContext(MapEventsContext)
+		useContext(EventsContext)
 	)
 }
 
-export const MapEventsProvider = ({children}: any) => {
-		const { mapRef, marker, setMarker } = useMapProperties();
+export const EventsProvider = ({children}: any) => {
+		const { mapRef, viewport, setViewport } = useMapbox();
 		const [ isDragging, setIsDragging ] = useState(false);
 		const [ dragOffset, setDragOffset ] = useState({ x: 0, y: 0 });
 
@@ -24,7 +24,7 @@ export const MapEventsProvider = ({children}: any) => {
 	            });
 	            return features && features.length > 0;
 	        },
-	        [mapRef]
+	        [ mapRef ]
 	    );
 
 	    const onDragStart = useCallback(
@@ -32,11 +32,11 @@ export const MapEventsProvider = ({children}: any) => {
 	            if (isClickInsideCircle(event.point)) {
 	                setIsDragging(true);
 	                const { x, y } = event.point;
-	                const projected = mapRef.current.project([marker.longitude, marker.latitude]);
+	                const projected = mapRef.current.project([viewport.longitude, viewport.latitude]);
 	                setDragOffset({ x: x - projected.x, y: y - projected.y });
 	            }
 	        },
-	        [ isClickInsideCircle, marker, mapRef ]
+	        [ isClickInsideCircle, viewport, mapRef ]
 	    );
 
 	    const onMouseMove = useCallback(
@@ -46,13 +46,14 @@ export const MapEventsProvider = ({children}: any) => {
 	                    x: event.point.x - dragOffset.x,
 	                    y: event.point.y - dragOffset.y
 	                });
-	                setMarker({
+	                setViewport((prev: any) => ({
+	                	...prev,
 	                    longitude: newCenter.lng,
 	                    latitude: newCenter.lat
-	                });
+	                }));
 	            }
 	        },
-	        [ isDragging, dragOffset, mapRef, setMarker ]
+	        [ isDragging, dragOffset, mapRef, setViewport ]
 	    );
 
 	    const onDragEnd = useCallback(() => {
@@ -60,15 +61,15 @@ export const MapEventsProvider = ({children}: any) => {
 	    }, []);
 
 	return (
-		<MapEventsContext.Provider value={{
+		<EventsContext.Provider value={{
 			isDragging,
 			onDragStart,
 			onMouseMove,
 			onDragEnd,
 		}}>
 			{children}
-		</MapEventsContext.Provider>
+		</EventsContext.Provider>
 	)
 }
 
-MapEventsContext.displayName = "MapEventsContext";
+EventsContext.displayName = "EventsContext";

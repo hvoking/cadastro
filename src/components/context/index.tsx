@@ -1,16 +1,19 @@
 import { CircleProvider } from './circle';
 import { MaskProvider } from './mask';
-import { MapsProvider } from './maps';
+import { MapboxProvider } from './mapbox';
+import { EventsProvider } from './events';
 
 export const MainProvider = ({children}: any) => {
   return (
-    <MapsProvider>
+    <MapboxProvider>
+    <EventsProvider>
     <CircleProvider>
     <MaskProvider>
       {children}
     </MaskProvider>
     </CircleProvider>
-    </MapsProvider>
+    </EventsProvider>
+    </MapboxProvider>
   )
 }
 

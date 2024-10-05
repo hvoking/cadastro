@@ -3,7 +3,7 @@ import { Download } from './download';
 import './styles.scss';
 
 // Context imports
-import { useMask } from '../../../../context/mask';
+import { useMask } from '../../../context/mask';
 
 // Third-party imports
 import { Source, Layer } from 'react-map-gl';

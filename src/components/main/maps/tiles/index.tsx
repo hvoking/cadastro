@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 // Context imports
-import { useMapProperties } from '../../../context/maps/properties';
+import { useMapbox } from '../../../context/mapbox';
 
 // Third-party imports
 import { Source, Layer, LayerProps } from 'react-map-gl';
@@ -12,7 +12,7 @@ const wgs84 = 'EPSG:4326';
 const webMercator = 'EPSG:3857';
 
 export const Tiles = () => {
-    const { mapRef } = useMapProperties();
+    const { mapRef } = useMapbox();
     const [ currentBounds, setCurrentBounds ] = useState<any>(null);
     const [ geojsonData, setGeojsonData ] = useState(null);
 

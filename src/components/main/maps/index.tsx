@@ -1,21 +1,23 @@
 // App imports
-import { Layers } from './layers';
+import { Circle } from './circle';
+import { Mask } from './mask';
 import { Tiles } from './tiles';
 import { Lines } from './lines';
-import { Navigation } from './nav';
 import './styles.scss';
 
 // Context imports
-import { useMapProperties } from '../../context/maps/properties';
-import { useMapEvents } from '../../context/maps/events';
+import { useMapbox } from '../../context/mapbox';
+import { useEvents } from '../../context/events';
 
 // Third-party imports
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Map } from 'react-map-gl';
 
 export const Maps = () => {
-	const { viewport, mapRef, mapStyle } = useMapProperties();
-    const { isDragging, onDragStart, onMouseMove, onDragEnd } = useMapEvents();
+	const { viewport, mapRef } = useMapbox();
+    const { isDragging, onDragStart, onMouseMove, onDragEnd } = useEvents();
+
+    const mapStyle = "mapbox://styles/hvoking/clygh6abe01fv01qrd3y0105g";
 
 	return (
 		<div className="map-container">
@@ -32,10 +34,10 @@ export const Maps = () => {
                 onTouchEnd={onDragEnd}
                 dragPan={!isDragging}
 			>	
-				<Layers/>
+				<Circle/>
+				<Mask/>
 				{/*<Lines/>*/}
 				<Tiles/>
-				<Navigation/>
 			</Map>
 		</div>
 	)
