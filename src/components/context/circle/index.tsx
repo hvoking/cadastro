@@ -19,7 +19,9 @@ export const CircleProvider = ({children}: any) => {
 	const { viewport } = useMapbox();
 	const [ radius, setRadius ] = useState(1);
 
-	const circleGeometry: any = turf.circle([viewport.longitude, viewport.latitude], radius);
+	const { latitude, longitude } = viewport;
+
+	const circleGeometry: any = turf.circle([longitude, latitude], radius);
 
 	return (
 		<CircleContext.Provider value={{ 
