@@ -2,17 +2,18 @@
 import { useState, useEffect } from 'react';
 
 // Context imports
-import { useMapbox } from '../../context/mapbox';
+import { useGeo } from 'context/geo';
 
 // Third-party imports
-import { Source, Layer, LayerProps } from 'react-map-gl';
+import { Source, Layer, LayerProps } from 'react-map-gl/mapbox';
 import proj4 from 'proj4';
 
 const wgs84 = 'EPSG:4326';
 const webMercator = 'EPSG:3857';
 
 export const Tiles = () => {
-    const { mapRef } = useMapbox();
+    const { mapRef } = useGeo();
+    
     const [ currentBounds, setCurrentBounds ] = useState<any>(null);
     const [ geojsonData, setGeojsonData ] = useState(null);
 
@@ -71,7 +72,7 @@ export const Tiles = () => {
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                setGeojsonData(data); // Assuming the data returned is in ESRI JSON format
+                setGeojsonData(data);
             } catch (error) {
                 console.error('Error fetching GeoJSON data:', error);
             }
@@ -116,7 +117,11 @@ export const Tiles = () => {
 
     return (
         transformedEsri && (
-            <Source id="blumenau-geojson" type="geojson" data={transformedEsri}>
+            <Source 
+                id="blumenau-geojson" 
+                type="geojson" 
+                data={transformedEsri}
+            >
                 <Layer {...parcelLayer} />
             </Source>
         )
