@@ -1,6 +1,6 @@
 // App imports
 import { Tiles } from './tiles';
-import { Lines } from './lines';
+// import { Lines } from './lines';
 
 // Context imports
 import { useGeo } from 'context/geo';
